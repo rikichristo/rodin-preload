@@ -100,7 +100,12 @@ select:focus,textarea:focus,input:focus{border-color:var(--ink);outline:none}
 <script src="config.js"></script>
 <script>
 const SURVEY = "preload-2026";
-const DRIVERS = ["Abbi Pulling","Alessandro Giusti","Alex Dunne","Alex Ninovic","Alfie Slater","Brando Badoer","Cameron Campbell","Christian Ho","Dries Van Langendonck","Ella Lloyd","Ella Stevens","Emma Felbermayr","Ethan Lennon","Gabriel Gomez","Josh Buchan","Martin Molnar","Martinius Stenshorne","Maxim Rehm","Pedro Clerot","Reza Seewooruthun"];
+const SERIES = [
+  ["FIA Formula 2", ["Alex Dunne","Martinius Stenshorne"]],
+  ["FIA Formula 3", ["Brando Badoer","Pedro Clerot","Reza Seewooruthun"]],
+  ["F1 Academy", ["Ella Lloyd","Ella Stevens","Emma Felbermayr"]]
+];
+const DRIVERS = SERIES.flatMap(s => s[1]);
 const QS = [
   ["useful","What's on Preload that you find useful?"],
   ["missing","What isn't on Preload that you would find useful?"],
@@ -141,7 +146,7 @@ function formView(){
         <label for="driver"><span class="n">DRIVER</span><h2>Your name</h2></label>
         <select id="driver" required>
           <option value="">Select your name</option>
-          ${DRIVERS.map(d=>`<option${draft.driver===d?" selected":""}>${esc(d)}</option>`).join("")}
+          ${SERIES.map(([s,ds])=>`<optgroup label="${esc(s)}">${ds.map(d=>`<option${draft.driver===d?" selected":""}>${esc(d)}</option>`).join("")}</optgroup>`).join("")}
         </select>
       </div>
       ${QS.map(([k,q],i)=>`
